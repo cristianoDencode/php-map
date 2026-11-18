@@ -35,6 +35,23 @@ SECRET = "SEGREDO-do-authtoken-9876543210"
 
 
 def alive(pid: int) -> bool:
+    if sys.platform == "win32":
+        # No Windows `os.kill(pid, 0)` NÃO testa o processo: 0 é `CTRL_C_EVENT` e o Ctrl+C
+        # chega ao console do próprio pytest (KeyboardInterrupt, CI vermelho).
+        import ctypes
+
+        kernel32 = ctypes.windll.kernel32
+        kernel32.OpenProcess.restype = ctypes.c_void_p
+        handle = kernel32.OpenProcess(0x1000, False, pid)  # PROCESS_QUERY_LIMITED_INFORMATION
+        if not handle:
+            return False
+        try:
+            code = ctypes.c_ulong()
+            if not kernel32.GetExitCodeProcess(ctypes.c_void_p(handle), ctypes.byref(code)):
+                return False
+            return code.value == 259  # STILL_ACTIVE
+        finally:
+            kernel32.CloseHandle(ctypes.c_void_p(handle))
     try:
         os.kill(pid, 0)
     except ProcessLookupError:
