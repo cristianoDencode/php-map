@@ -1,0 +1,21 @@
+{
+  "entry": "ped4_cancelarpedido001.php",
+  "must_reach": [
+    {"node": "File:forms/db_frmcancelarpedido.php", "why": "include do formulário dentro do HTML"},
+    {"node": "File:ped4_baixaestoque004.php", "why": "URL do Ajax.Request no <script> do formulário (REFERENCES)"},
+    {"node": "File:func_pedido.php", "why": "URL de pesquisa no <script>"},
+    {"node": "Method:pedido::cancelar", "why": "chamada do backend AJAX"},
+    {"node": "Method:cl_pedido::alterar", "why": "propriedade tipada no construtor"},
+    {"node": "Method:lancamentoestoque::estornar", "why": "classe usada sem require"},
+    {"node": "PgFunction:public.fc_saldo_estoque(int4,numeric)", "why": "função da base chamada num select"},
+    {"node": "Table:public.pedido", "why": "update do DAO"},
+    {"node": "Table:public.pedidocancelado", "why": "insert concatenado"},
+    {"node": "Table:public.estoque", "why": "update do estorno"},
+    {"node": "Table:public.entrega", "why": "select da ação getEntregas"}
+  ],
+  "must_not_reach": [
+    {"node": "File:ped4_liberarpedidos.RPC.php", "why": "nenhuma tela aponta para o RPC"},
+    {"node": "Table:public.transportadora", "why": "nenhum código toca a tabela"},
+    {"node": "Function:db_query", "why": "infraestrutura fica oculta por padrão"}
+  ]
+}

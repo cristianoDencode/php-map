@@ -1,0 +1,35 @@
+name: Sugerir uma funcionalidade
+description: Uma ideia ou necessidade nova
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problema
+    attributes:
+      label: Qual problema você quer resolver
+      description: Descreva a situação, não a solução. Quem se beneficia e como faz hoje.
+    validations:
+      required: true
+  - type: textarea
+    id: proposta
+    attributes:
+      label: Proposta
+      description: Como você imagina que funcione (comando, tela, ferramenta do MCP…).
+    validations:
+      required: true
+  - type: textarea
+    id: alternativas
+    attributes:
+      label: Alternativas consideradas
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área
+      options: [Extrator PHP, Resolução e grafo, Perfil de sistema novo, CLI, Interface web, Servidor MCP, Documentação, Outra]
+    validations:
+      required: true
+  - type: checkboxes
+    id: contribuir
+    attributes:
+      label: Contribuição
+      options:
+        - label: Posso ajudar a implementar

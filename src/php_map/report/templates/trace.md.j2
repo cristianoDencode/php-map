@@ -1,0 +1,104 @@
+# Trace — `{{ options.entry }}`
+
+| Filtro | Valor |
+|---|---|
+| Profundidade máxima | {{ options.depth }} |
+| Confiança mínima | {{ options.min_confidence }} |
+| Infraestrutura | {{ "incluída" if options.include_infra else "oculta (`--include-infra` para exibir)" }} |
+| Expandir funções do banco | {{ "sim" if options.expand_pgfunctions else "não" }} |
+| Scan | {{ meta.get("scanned_at", "—") }} (`{{ meta.get("source", "—") }}`) |
+
+## Resumo
+- Nós alcançados: {{ r.walk.steps | length }}
+- Arquivos: {{ r.count("File") }} · classes: {{ r.count("Class") }} · métodos: {{ r.count("Method") }} · funções PHP: {{ r.count("Function") }}
+{% set per_op = r.tables_by_operation() %}
+- Tabelas: {{ r.count("Table") }}{% if per_op %} ({% for op, n in per_op.items() %}{{ op }} {{ n }}{{ ", " if not loop.last }}{% endfor %}){% endif %}
+
+- Funções do banco (RPC): {{ r.rpc_count() }}
+{% if cross %}
+- Travessias para outros projetos: {{ cross.crossings | length }}{% if cross.unserved %} ({{ cross.unserved | length }} endpoints chamados que nenhum dos bancos do `--cross` serve){% endif %}
+
+{% endif %}
+
+## Árvore
+Cada nó aparece uma vez, pelo caminho mais curto a partir da entrada. A confiança aparece quando é menor que 1.
+{% if cross %}
+`[projeto]` diz de qual grafo é o nó; `~>` marca a travessia de um `Endpoint` de um projeto para o que o serve (chamada remota, não local).
+{% endif %}
+
+{% for item in tree %}
+{{ item.indent }}- {% if item.seam %}~> {% elif item.edge %}{{ item.edge }}{% if item.confidence is not none and item.confidence < 1 %} ({{ "%.2f" | format(item.confidence) }}){% endif %} → {% endif %}{% if item.project %}[{{ item.project }}] {% endif %}`{{ item.node }}`
+{% endfor %}
+
+## Tabelas tocadas
+{% if r.tables %}
+| Operação | Tabela | Origem | Evidência | Confiança |
+|---|---|---|---|---|
+{% for t in r.tables %}
+| {{ t.operation }} | `{{ t.table }}` | `{{ t.origin }}` | `{{ t.evidence.get("path", "") }}:{{ t.evidence.get("line", "") }}` | {{ "%.2f" | format(t.confidence) }} |
+{% endfor %}
+{% else %}
+Nenhuma tabela alcançada com esses filtros.
+{% endif %}
+
+{% if cross %}
+## Travessias para outros projetos
+{% if cross.crossings %}
+| Endpoint | De | Para | Profundidade | Caminho até o endpoint |
+|---|---|---|---|---|
+{% for c in cross.crossings %}
+| `{{ c.endpoint }}` | {{ c.from_project }} | {{ c.to_project }} | {{ c.depth }} | {{ c.path | join(" → ") }} |
+{% endfor %}
+
+{% for c in cross.crossings %}
+{% if c.tables %}
+Tabelas de **{{ c.to_project }}** por `{{ c.endpoint }}`:
+
+| Operação | Tabela | Origem | Evidência | Confiança |
+|---|---|---|---|---|
+{% for t in c.tables %}
+| {{ t.operation }} | `{{ t.table }}` | `{{ t.origin }}` | `{{ t.evidence.get("path", "") }}:{{ t.evidence.get("line", "") }}` | {{ "%.2f" | format(t.confidence) }} |
+{% endfor %}
+
+{% endif %}
+{% endfor %}
+{% else %}
+Nenhum `Endpoint` de outro projeto foi alcançado.
+{% endif %}
+{% if cross.unserved %}
+Chamados e sem servidor nos bancos do `--cross`: {% for e in cross.unserved %}`{{ e }}`{{ ", " if not loop.last }}{% endfor %}.
+
+{% endif %}
+
+{% endif %}
+## Ações despachadas
+{% if r.dispatch %}
+{% for node, actions in r.dispatch.items() %}
+- `{{ node }}`: {{ actions | join(", ") }}
+{% endfor %}
+{% else %}
+Nenhum arquivo alcançado despacha por `switch`.
+{% endif %}
+
+## Pendências nos arquivos alcançados
+{% if pending_total %}
+{{ pending_total }} pendências ({% for kind, n in pending_kinds.items() %}{{ kind }} {{ n }}{{ ", " if not loop.last }}{% endfor %}){% if pending_total > pending | length %}; as {{ pending | length }} primeiras:{% else %}:{% endif %}
+
+
+| Tipo | Local | Dica | Ocorrências |
+|---|---|---|---|
+{% for p in pending %}
+| {{ p.kind }} | `{{ p.path }}:{{ p.line }}` | {{ ("`" ~ p.hint ~ "`") if p.hint else "—" }} | {{ p.count }} |
+{% endfor %}
+{% else %}
+Nenhuma pendência registrada nos arquivos alcançados.
+{% endif %}
+
+## Diagrama
+{% if cut %}
+Diagrama cortado em {{ max_nodes }} nós ({{ cut }} de fora; os caminhos até as tabelas e funções do banco têm prioridade). Use `--max-mermaid-nodes` para mudar.
+
+{% endif %}
+```mermaid
+{{ mermaid }}
+```

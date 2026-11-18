@@ -1,0 +1,11 @@
+[
+  {"query": "cancelamento de pedido", "expect": "BusinessAction:menu:7001", "top_k": 3, "note": "menu 7001 + nome"},
+  {"query": "cancelar pedido", "expect": "File:ped4_cancelarpedido001.php", "top_k": 5, "note": "nome do arquivo e do menu"},
+  {"query": "cancelamento", "expect": "Table:public.pedidocancelado", "top_k": 5, "note": "rótulo do catálogo"},
+  {"query": "saldo do produto", "expect": "Table:public.estoque", "top_k": 3, "note": "descricao da tabela estoque no catálogo (est01_saldo)"},
+  {"query": "nao ha pedido selecionado", "expect": "File:forms/db_frmcancelarpedido.php", "top_k": 3, "note": "js_string do alert (sem acento na consulta)"},
+  {"query": "situação do pedido", "expect": "Table:public.pedido", "top_k": 3, "note": "coluna ped01_situacao no catálogo"},
+  {"query": "baixa", "expect": "BusinessAction:menu:7002", "top_k": 3, "note": "menu inativo continua pesquisável"},
+  {"query": "transportadora", "expect": "Table:public.transportadora", "top_k": 3, "note": "tabela que nenhum código toca"},
+  {"query": "pedidos", "expect": "File:func_pedido.php", "top_k": 5, "note": "item de menu 7003 nos dois módulos"}
+]

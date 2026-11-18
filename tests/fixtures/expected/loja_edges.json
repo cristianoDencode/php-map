@@ -1,0 +1,719 @@
+[
+ {
+  "src": "File:ped4_cancelarpedido001.php",
+  "type": "REQUIRES",
+  "dst": "File:libs/db_stdlib.php",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver",
+  "note": "require_once(modification(literal))"
+ },
+ {
+  "src": "File:ped4_cancelarpedido001.php",
+  "type": "REQUIRES",
+  "dst": "File:libs/db_conecta.php",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_cancelarpedido001.php",
+  "type": "REQUIRES",
+  "dst": "File:libs/db_sessoes.php",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_cancelarpedido001.php",
+  "type": "REQUIRES",
+  "dst": "File:libs/db_usuariosonline.php",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_cancelarpedido001.php",
+  "type": "REQUIRES",
+  "dst": "File:dbforms/db_funcoes.php",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_cancelarpedido001.php",
+  "type": "REQUIRES",
+  "dst": "File:classes/db_pedido_classe.php",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_cancelarpedido001.php",
+  "type": "REQUIRES",
+  "dst": "File:classes/db_pedidocancelado_classe.php",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_cancelarpedido001.php",
+  "type": "REQUIRES",
+  "dst": "File:classes/db_itempedido_classe.php",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_cancelarpedido001.php",
+  "type": "REQUIRES",
+  "dst": "File:classes/db_cliente_classe.php",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_cancelarpedido001.php",
+  "type": "REQUIRES",
+  "dst": "File:classes/db_estoque_classe.php",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_cancelarpedido001.php",
+  "type": "REQUIRES",
+  "dst": "File:classes/db_parametroloja_classe.php",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_cancelarpedido001.php",
+  "type": "INSTANTIATES",
+  "dst": "Class:cl_pedido",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver",
+  "note": "new cl_x; (sem parênteses)"
+ },
+ {
+  "src": "File:ped4_cancelarpedido001.php",
+  "type": "INSTANTIATES",
+  "dst": "Class:cl_pedidocancelado",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_cancelarpedido001.php",
+  "type": "INSTANTIATES",
+  "dst": "Class:cl_itempedido",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_cancelarpedido001.php",
+  "type": "INSTANTIATES",
+  "dst": "Class:cl_cliente",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_cancelarpedido001.php",
+  "type": "INSTANTIATES",
+  "dst": "Class:cl_parametroloja",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_cancelarpedido001.php",
+  "type": "CALLS",
+  "dst": "Function:db_putsession",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_cancelarpedido001.php",
+  "type": "CALLS",
+  "dst": "Method:modification::getfile",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver",
+  "note": "Modification::getFile() em bloco <?php dentro do HTML"
+ },
+ {
+  "src": "File:forms/db_frmcancelarpedido.php",
+  "type": "CALLS",
+  "dst": "Method:cl_pedido::sql_record",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver",
+  "note": "método chamado numa variável da tela de entrada, pelo include"
+ },
+ {
+  "src": "File:forms/db_frmcancelarpedido.php",
+  "type": "CALLS",
+  "dst": "Method:cl_pedido::sql_query_file",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:forms/db_frmcancelarpedido.php",
+  "type": "REFERENCES",
+  "dst": "File:ped4_baixaestoque004.php",
+  "source": "STRING_REF",
+  "min_confidence": 0.9,
+  "group": "resolver",
+  "note": "URL em Ajax.Request dentro do <script>"
+ },
+ {
+  "src": "File:forms/db_frmcancelarpedido.php",
+  "type": "REFERENCES",
+  "dst": "File:func_pedido.php",
+  "source": "STRING_REF",
+  "min_confidence": 0.9,
+  "group": "resolver",
+  "note": "URL com query string em js_OpenJanelaIframe"
+ },
+ {
+  "src": "File:ped4_baixaestoque004.php",
+  "type": "REQUIRES",
+  "dst": "File:libs/db_stdlib.php",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_baixaestoque004.php",
+  "type": "REQUIRES",
+  "dst": "File:libs/db_conecta.php",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_baixaestoque004.php",
+  "type": "REQUIRES",
+  "dst": "File:libs/db_sessoes.php",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_baixaestoque004.php",
+  "type": "REQUIRES",
+  "dst": "File:libs/JSON.php",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_baixaestoque004.php",
+  "type": "REQUIRES",
+  "dst": "File:dbforms/db_funcoes.php",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_baixaestoque004.php",
+  "type": "REQUIRES",
+  "dst": "File:classes/pedido.php",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_baixaestoque004.php",
+  "type": "INSTANTIATES",
+  "dst": "Class:pedido",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_baixaestoque004.php",
+  "type": "INSTANTIATES",
+  "dst": "Class:services_json",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver",
+  "note": "new services_json() resolve para Services_JSON (PHP não diferencia caixa)"
+ },
+ {
+  "src": "File:ped4_baixaestoque004.php",
+  "type": "CALLS",
+  "dst": "Method:pedido::cancelar",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_baixaestoque004.php",
+  "type": "CALLS",
+  "dst": "Function:db_query",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver",
+  "note": "db_query declarada em dois arquivos; o fecho de includes desempata para libs/db_stdlib.php"
+ },
+ {
+  "src": "File:ped4_baixaestoque004.php",
+  "type": "CALLS",
+  "dst": "Function:db_inicio_transacao",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_baixaestoque004.php",
+  "type": "CALLS",
+  "dst": "Function:db_fim_transacao",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_liberarpedidos.RPC.php",
+  "type": "INCLUDES",
+  "dst": "File:libs/JSON.php",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver",
+  "note": "include (não require)"
+ },
+ {
+  "src": "File:ped4_liberarpedidos.RPC.php",
+  "type": "INSTANTIATES",
+  "dst": "Class:pedido",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_liberarpedidos.RPC.php",
+  "type": "CALLS",
+  "dst": "Method:pedido::getpedidosliberados",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:ped4_liberarpedidos.RPC.php",
+  "type": "CALLS",
+  "dst": "Method:pedido::liberar",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:classes/pedido.php",
+  "type": "REQUIRES",
+  "dst": "File:model/pedido/PedidoCliente.model.php",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:classes/pedido.php",
+  "type": "REQUIRES",
+  "dst": "File:classes/db_pedido_classe.php",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver",
+  "note": "require_once dentro do método __construct"
+ },
+ {
+  "src": "Method:pedido::__construct",
+  "type": "INSTANTIATES",
+  "dst": "Class:cl_pedido",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "Method:pedido::__construct",
+  "type": "INSTANTIATES",
+  "dst": "Class:cl_itempedido",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver",
+  "note": "fábrica db_utils::getDao('itempedido')"
+ },
+ {
+  "src": "Method:pedido::__construct",
+  "type": "INSTANTIATES",
+  "dst": "Class:cl_pedidocancelado",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver",
+  "note": "fábrica $this->usarDao('pedidocancelado', true)"
+ },
+ {
+  "src": "Method:pedido::cancelar",
+  "type": "CALLS",
+  "dst": "Method:cl_pedido::alterar",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver",
+  "note": "propriedade tipada no construtor (new cl_pedido)"
+ },
+ {
+  "src": "Method:pedido::cancelar",
+  "type": "INSTANTIATES",
+  "dst": "Class:lancamentoestoque",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver",
+  "note": "classe usada sem require (autoload)"
+ },
+ {
+  "src": "Method:pedido::cancelar",
+  "type": "CALLS",
+  "dst": "Method:lancamentoestoque::estornar",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:model/pedido/PedidoCliente.model.php",
+  "type": "REQUIRES",
+  "dst": "File:classes/pedido.php",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "Class:pedidocliente",
+  "type": "EXTENDS",
+  "dst": "Class:pedido",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:classes/db_pedido_classe.php",
+  "type": "DECLARES",
+  "dst": "Class:cl_pedido",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:libs/db_stdlib.php",
+  "type": "DECLARES",
+  "dst": "Function:db_query",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:libs/db_stdlibalt.php",
+  "type": "DECLARES",
+  "dst": "Function:db_query",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver"
+ },
+ {
+  "src": "File:std/Modification.php",
+  "type": "DECLARES",
+  "dst": "Function:modification",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver",
+  "note": "declarada dentro de if (!function_exists(...))"
+ },
+ {
+  "src": "Method:cl_pedido::incluir",
+  "type": "CALLS",
+  "dst": "Function:db_query",
+  "source": "PHP_AST_AMBIGUOUS",
+  "min_confidence": 0.5,
+  "group": "resolver",
+  "note": "dois declarantes e nenhum no fecho de includes da DAO"
+ },
+ {
+  "src": "Method:cl_pedido::incluir",
+  "type": "INSERTS",
+  "dst": "Table:public.pedido",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql",
+  "note": "insert multilinha com $this->campo"
+ },
+ {
+  "src": "Method:cl_pedido::alterar",
+  "type": "UPDATES",
+  "dst": "Table:public.pedido",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql"
+ },
+ {
+  "src": "Method:cl_pedido::sql_query_file",
+  "type": "QUERIES",
+  "dst": "Table:public.pedido",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql",
+  "note": "select montado com .= e if"
+ },
+ {
+  "src": "Method:cl_pedidocancelado::incluir",
+  "type": "INSERTS",
+  "dst": "Table:public.pedidocancelado",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql"
+ },
+ {
+  "src": "Method:cl_itempedido::incluir",
+  "type": "INSERTS",
+  "dst": "Table:public.itempedido",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql"
+ },
+ {
+  "src": "File:ped4_baixaestoque004.php",
+  "type": "QUERIES",
+  "dst": "Table:public.itempedido",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql",
+  "note": "select de 5 tabelas montado com .="
+ },
+ {
+  "src": "File:ped4_baixaestoque004.php",
+  "type": "QUERIES",
+  "dst": "Table:public.produto",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql"
+ },
+ {
+  "src": "File:ped4_baixaestoque004.php",
+  "type": "QUERIES",
+  "dst": "Table:public.pedido",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql"
+ },
+ {
+  "src": "File:ped4_baixaestoque004.php",
+  "type": "QUERIES",
+  "dst": "Table:public.estoque",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql"
+ },
+ {
+  "src": "File:ped4_baixaestoque004.php",
+  "type": "QUERIES",
+  "dst": "Table:public.cliente",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql"
+ },
+ {
+  "src": "File:ped4_baixaestoque004.php",
+  "type": "QUERIES",
+  "dst": "Table:public.entrega",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql",
+  "note": "tabela que não está no DDL: nó de tabela sem schema"
+ },
+ {
+  "src": "Method:pedido::cancelar",
+  "type": "QUERIES",
+  "dst": "Table:public.itempedido",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql"
+ },
+ {
+  "src": "Method:pedido::cancelar",
+  "type": "CALLS_RPC",
+  "dst": "PgFunction:public.fc_saldo_estoque(int4,numeric)",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql",
+  "note": "função da base chamada num select interpolado"
+ },
+ {
+  "src": "Method:pedido::liberar",
+  "type": "UPDATES",
+  "dst": "Table:public.pedido",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql"
+ },
+ {
+  "src": "Method:pedido::getpedidosliberados",
+  "type": "QUERIES",
+  "dst": "Table:public.pedido",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql"
+ },
+ {
+  "src": "Method:lancamentoestoque::estornar",
+  "type": "UPDATES",
+  "dst": "Table:public.estoque",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql"
+ },
+ {
+  "src": "Method:lancamentoestoque::estornar",
+  "type": "QUERIES",
+  "dst": "Table:public.itempedido",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql",
+  "note": "subselect dentro do update"
+ },
+ {
+  "src": "PgFunction:public.fc_saldo_estoque(int4,numeric)",
+  "type": "QUERIES",
+  "dst": "Table:public.estoque",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql"
+ },
+ {
+  "src": "PgFunction:public.fc_saldo_estoque(int4,numeric)",
+  "type": "INSERTS",
+  "dst": "Table:public.estoque",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql"
+ },
+ {
+  "src": "PgFunction:public.tg_pedido_auditoria()",
+  "type": "INSERTS",
+  "dst": "Table:public.auditoria_loja",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql"
+ },
+ {
+  "src": "Table:public.pedido",
+  "type": "TRIGGERS",
+  "dst": "PgFunction:public.tg_pedido_auditoria()",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql"
+ },
+ {
+  "src": "File:ped4_cancelarpedido001.php",
+  "type": "IMPLEMENTS_ACTION",
+  "dst": "BusinessAction:menu:7001",
+  "source": "ECIDADE_CATALOG",
+  "min_confidence": 1.0,
+  "group": "catalog"
+ },
+ {
+  "src": "File:ped4_baixaestoque004.php",
+  "type": "IMPLEMENTS_ACTION",
+  "dst": "BusinessAction:menu:7002",
+  "source": "ECIDADE_CATALOG",
+  "min_confidence": 1.0,
+  "group": "catalog",
+  "note": "item inativo mantém a aresta"
+ },
+ {
+  "src": "File:func_pedido.php",
+  "type": "IMPLEMENTS_ACTION",
+  "dst": "BusinessAction:menu:7003",
+  "source": "ECIDADE_CATALOG",
+  "min_confidence": 1.0,
+  "group": "catalog",
+  "note": "funcao com query string e espaços"
+ },
+ {
+  "src": "File:ped4_cancelarpedido001.php",
+  "type": "BELONGS_TO",
+  "dst": "Module:pedidos",
+  "source": "ECIDADE_CATALOG",
+  "min_confidence": 1.0,
+  "group": "catalog"
+ },
+ {
+  "src": "File:func_pedido.php",
+  "type": "BELONGS_TO",
+  "dst": "Module:pedidos",
+  "source": "ECIDADE_CATALOG",
+  "min_confidence": 1.0,
+  "group": "catalog",
+  "note": "item de menu pendurado nos dois módulos"
+ },
+ {
+  "src": "File:func_pedido.php",
+  "type": "BELONGS_TO",
+  "dst": "Module:estoque",
+  "source": "ECIDADE_CATALOG",
+  "min_confidence": 1.0,
+  "group": "catalog"
+ },
+ {
+  "src": "Table:public.pedido",
+  "type": "BELONGS_TO",
+  "dst": "Module:pedidos",
+  "source": "ECIDADE_CATALOG",
+  "min_confidence": 1.0,
+  "group": "catalog"
+ },
+ {
+  "src": "Table:public.estoque",
+  "type": "BELONGS_TO",
+  "dst": "Module:estoque",
+  "source": "ECIDADE_CATALOG",
+  "min_confidence": 1.0,
+  "group": "catalog"
+ },
+ {
+  "src": "Table:public.transportadora",
+  "type": "BELONGS_TO",
+  "dst": "Module:estoque",
+  "source": "ECIDADE_CATALOG",
+  "min_confidence": 1.0,
+  "group": "catalog",
+  "note": "tabela que nenhum código toca"
+ },
+ {
+  "src": "File:classes/db_pedido_classe.php",
+  "type": "BELONGS_TO",
+  "dst": "Module:pedidos",
+  "source": "NAMING_RULE",
+  "min_confidence": 0.9,
+  "group": "catalog",
+  "note": "DAO sem menu: módulo pelo nome da tabela"
+ },
+ {
+  "src": "PgFunction:public.fc_saldo_estoque(int4,numeric)",
+  "type": "QUERIES",
+  "dst": "Table:public.parametroloja",
+  "source": "SQL_AST",
+  "min_confidence": 1.0,
+  "group": "sql",
+  "note": "tabela que só a função da base lê: aparece no trace só com expand_pgfunctions"
+ },
+ {
+  "src": "Method:pedido::cancelar",
+  "type": "CALLS",
+  "dst": "Method:cl_pedidocancelado::incluir",
+  "source": "PHP_AST",
+  "min_confidence": 1.0,
+  "group": "resolver",
+  "note": "DAO obtida por $this->usarDao('pedidocancelado', true) e chamada pela propriedade"
+ }
+]

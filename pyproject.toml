@@ -1,0 +1,91 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "php-map"
+version = "0.1.0"
+description = "Mapeia o e-Cidade e outros sistemas PHP legados num grafo de conhecimento para planejar a modernização."
+readme = "README.md"
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE"]
+authors = [{ name = "Cristiano Aquino" }]
+keywords = ["php", "legacy", "knowledge-graph", "static-analysis", "e-cidade", "mcp", "strangler-fig"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.11"
+dependencies = [
+    "typer>=0.12",
+    "rich>=13",
+    "networkx>=3.3",
+    "pglast>=8.4",
+    "pydantic>=2.7",
+    "jinja2>=3.1",
+    # Catálogo lido do banco no scan; wheel cp314-win_amd64.
+    "psycopg[binary]==3.3.6",
+    # API GraphQL e comando `php-map ui`.
+    "fastapi==0.141.1",
+    "uvicorn==0.54.0",
+    "strawberry-graphql==0.327.7",
+]
+
+[project.optional-dependencies]
+# Servidor MCP somente leitura: `php-map mcp`. SDK 2.x (`MCPServer`).
+mcp = ["mcp==2.3.0"]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+    "mypy>=1.11",
+    "types-networkx>=3.3",
+    "httpx2==2.13.1",  # TestClient do Starlette 1.x
+]
+
+[project.urls]
+Repository = "https://github.com/cristianoDencode/php-map"
+Issues = "https://github.com/cristianoDencode/php-map/issues"
+Changelog = "https://github.com/cristianoDencode/php-map/blob/main/CHANGELOG.md"
+
+[project.scripts]
+php-map = "php_map.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/php_map"]
+
+# O servidor MCP serve a documentação como recursos: leva `docs/` junto no wheel.
+[tool.hatch.build.targets.wheel.force-include]
+"docs" = "php_map/docs"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+# A documentação interna só tem trechos de código ilustrativos.
+extend-exclude = ["e-cidade", ".ai"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint.flake8-bugbear]
+# Typer declara opções como valores padrão de argumentos.
+extend-immutable-calls = ["typer.Option", "typer.Argument"]
+
+[tool.mypy]
+strict = true
+python_version = "3.11"
+files = ["src"]
+plugins = ["strawberry.ext.mypy_plugin"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "docker: depende do Docker e da imagem do extrator PHP (php-map-php74 ou equivalente)",
+    "remote_db: lê o banco remoto do e-cidade (pulado sem PHP_MAP_CATALOG_DSN)",
+]

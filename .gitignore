@@ -1,0 +1,53 @@
+# Código-fonte do e-cidade: apenas insumo de leitura, nunca versionado aqui
+/e-cidade/
+
+# Segundo sistema (NFSe): código e cópias do ambiente do usuário, com configuração
+# que tem credenciais. Insumo de leitura, nunca versionado aqui.
+/nfse/
+**/ideia/NFSE/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+
+# PHP extractor
+/php-extractor/vendor/
+
+# Artefatos gerados pelo pipeline (grafo, JSONs de AST, caches de IA)
+/out/
+/data/cache/
+*.db
+*.duckdb
+*.sqlite
+
+# Ambiente / IDE
+.env
+.env.*
+!.env.example
+.idea/
+.vscode/
+*.log
+Thumbs.db
+.DS_Store
+
+# Ferramentas de desenvolvimento: configurações locais de cada máquina e estado efêmero por sessão
+.*/settings.local.json
+.*/hooks/state/
+
+# Notas locais de contexto sobre o cofre de certificados (não é artefato da ferramenta)
+/.notas-certificados/
+
+# Interface: o build e as dependências não vão para o git; ui/schema.graphql vai.
+/ui/node_modules/
+/ui/dist/
+/ui/src/graphql/generated/

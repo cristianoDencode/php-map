@@ -1,0 +1,1030 @@
+"""Um token do MCP. O valor nunca é devolvido, só o prefixo."""
+type AccessToken {
+  id: Int!
+  name: String!
+  prefix: String!
+  createdAt: String!
+  createdBy: String
+  expiresAt: String
+  lastUsedAt: String
+  lastUsedIp: String
+  state: String!
+}
+
+type AccessUser {
+  username: String!
+  role: String!
+  active: Boolean!
+  createdAt: String!
+  lastLoginAt: String
+  locked: Boolean!
+  isCurrent: Boolean!
+}
+
+type AstCache {
+  exists: Boolean!
+  reusable: Boolean!
+  files: Int
+  updatedAt: String
+
+  """reusable, no_cache, schema_version ou extractor_hash."""
+  reason: String!
+  message: String!
+}
+
+type BusinessRules {
+  entry: ID!
+  depth: Int!
+  minConfidence: Float!
+  modules: [Membership!]!
+  menus: [RuleMenu!]!
+  actions: [RuleAction!]!
+  participants: [RuleParticipant!]!
+  writes: [RuleTable!]!
+  reads: [RuleTable!]!
+  rpc: [RuleRpc!]!
+  triggers: [RuleTrigger!]!
+  messages: [RuleMessage!]!
+  notes: [RuleNote!]!
+  stats: RuleStats!
+  clamped: [String!]!
+}
+
+type CommunicationCaller {
+  """None = o projeto ativo."""
+  project: String
+  node: ID!
+  path: String
+  line: Int
+  module: String
+  args: JSON!
+  occurrences: Int!
+}
+
+type CommunicationCounters {
+  serves: Int!
+  calls: Int!
+  withParams: Int!
+
+  """Só com outro projeto cadastrado."""
+  orphans: Int
+  crossAvailable: Boolean!
+}
+
+type CommunicationFacet {
+  value: String!
+  count: Int!
+}
+
+type CommunicationImpl {
+  node: ID!
+  path: String
+  line: Int
+}
+
+type CommunicationPage {
+  total: Int!
+  offset: Int!
+  limit: Int!
+  items: [CommunicationRow!]!
+  counters: CommunicationCounters!
+  systems: [CommunicationFacet!]!
+  protocols: [CommunicationFacet!]!
+  modules: [CommunicationFacet!]!
+
+  """
+  Por que não há o outro lado da costura (nenhum outro grafo, por exemplo).
+  """
+  crossNote: String
+}
+
+type CommunicationParam {
+  name: String!
+  required: Boolean
+  type: String
+  source: String
+}
+
+type CommunicationReach {
+  tables: [ID!]!
+  modules: [ID!]!
+  nodes: Int!
+}
+
+type CommunicationRow {
+  endpointId: ID!
+
+  """Endpoint ou Route."""
+  nodeLabel: String!
+  system: String!
+  protocol: String!
+
+  """Protocolo do filtro: externo para o que sai."""
+  category: String!
+  kind: String
+  name: String!
+
+  """entra (SERVES/rota) ou sai (CALLS_REMOTE)."""
+  direction: String!
+  resolved: Boolean!
+  params: [CommunicationParam!]!
+  implementedBy: [CommunicationImpl!]!
+  callers: Int!
+  callerSample: [CommunicationCaller!]!
+  module: String
+  reaches: CommunicationReach
+
+  """Do cruzamento: casado, chamado_sem_servidor ou servido_sem_cliente."""
+  status: String
+}
+
+"""O token recém-criado: o valor só aparece nesta resposta."""
+type CreatedAccessToken {
+  token: String!
+  info: AccessToken!
+}
+
+type DaoUser {
+  origin: ID!
+  label: String!
+
+  """INSERT, UPDATE, DELETE ou SELECT."""
+  operation: String!
+
+  """Método do DAO chamado (`incluir`)."""
+  daoMethod: String!
+  confidence: Float!
+  path: String
+  line: Int
+}
+
+enum Direction {
+  OUT
+  IN
+}
+
+type DistanceCount {
+  distance: Int!
+  count: Int!
+}
+
+type Edge {
+  src: ID!
+  dst: ID!
+  type: String!
+  source: String!
+  confidence: Float!
+  evidence: JSON!
+  occurrences: Int!
+  sampleLines: JSON!
+}
+
+type EdgePage {
+  total: Int!
+  items: [Edge!]!
+  nodes: [Node!]!
+}
+
+type EndpointCounterpart {
+  available: Boolean!
+  message: String
+  status: String
+  servedBy: String
+  servers: [CommunicationImpl!]!
+  params: [CommunicationParam!]!
+  reaches: CommunicationReach
+  callers: [CommunicationCaller!]!
+  system: String
+}
+
+type EndpointDetail {
+  row: CommunicationRow!
+  callers: [CommunicationCaller!]!
+  attrs: JSON!
+  counterpart: EndpointCounterpart
+}
+
+type FileLayers {
+  """Fonte resolvido; nulo quando o nome é ambíguo ou não existe."""
+  node: ID
+  candidates: [ID!]!
+  label: String
+  layer: String
+  name: String
+  minConfidence: Float!
+  up: [LayerPath!]!
+  upTotal: Int!
+  upTruncated: Boolean!
+  down: [LayerDownNode!]!
+  downTotal: Int!
+  downTruncated: Boolean!
+  downByLayer: [LayerCount!]!
+}
+
+type FileMenuItem {
+  menu: ID!
+  name: String
+  paths: [String!]!
+  modules: [MenuModule!]!
+  active: Boolean!
+  params: String
+  entry: ID!
+  distance: Int!
+  via: [ViaStep!]!
+}
+
+type FileMenus {
+  """Arquivo resolvido; nulo quando o nome é ambíguo ou não existe."""
+  file: ID
+  candidates: [ID!]!
+  maxDistance: Int!
+  total: Int!
+
+  """Itens até a distância, antes de módulo e texto."""
+  unfiltered: Int!
+  byDistance: [DistanceCount!]!
+  truncated: Boolean!
+  clamped: [String!]!
+  items: [FileMenuItem!]!
+}
+
+type Hotspot {
+  nodeId: ID!
+  label: String!
+  module: String!
+  inDegree: Int!
+  outDegree: Int!
+  fanInModules: Int!
+  rank: Int!
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](https://ecma-international.org/wp-content/uploads/ECMA-404_2nd_edition_december_2017.pdf).
+"""
+scalar JSON @specifiedBy(url: "https://ecma-international.org/wp-content/uploads/ECMA-404_2nd_edition_december_2017.pdf")
+
+type LayerCount {
+  layer: String!
+  count: Int!
+}
+
+type LayerDownNode {
+  node: ID!
+  label: String!
+  layer: String!
+  name: String!
+  depth: Int!
+  parent: ID!
+  edgeType: String!
+
+  """A menor confiança do caminho até o nó."""
+  confidence: Float!
+  path: String
+  line: Int
+
+  """
+  DAO: `getDao` ou `usarDao`, como o fonte obteve a classe; nulo se não souber.
+  """
+  factory: String
+
+  """DAO: os métodos que o fonte chama (sem o `__construct`)."""
+  members: [LayerMember!]!
+}
+
+"""Método de um DAO que o fonte chama."""
+type LayerMember {
+  name: String!
+  node: ID!
+  edgeType: String!
+  confidence: Float!
+}
+
+"""Do menu até o fonte, em camadas."""
+type LayerPath {
+  menu: ID!
+  menuPath: String
+  distance: Int!
+
+  """A menor confiança das arestas do caminho."""
+  confidence: Float!
+  steps: [LayerStep!]!
+}
+
+"""Um nó de um caminho de camadas (a aresta é a do passo anterior)."""
+type LayerStep {
+  node: ID!
+  label: String!
+
+  """Deduzida do nome e do tipo; não é aresta."""
+  layer: String!
+  name: String!
+  edgeType: String
+  confidence: Float
+  path: String
+  line: Int
+}
+
+type McpStatus {
+  available: Boolean!
+  reason: String
+  path: String!
+  localUrl: String!
+  publicUrls: [String!]!
+  exposeSource: Boolean!
+  activeTokens: Int!
+  legacyToken: Boolean!
+  vaultAvailable: Boolean!
+}
+
+type Membership {
+  module: ID!
+  name: String!
+  source: String!
+  confidence: Float!
+}
+
+type MenuModule {
+  module: ID!
+  name: String!
+}
+
+type ModuleDetail {
+  module: ModuleStats!
+  incoming: [ModuleEdge!]!
+  outgoing: [ModuleEdge!]!
+  tables: [TableStats!]!
+  screens: [ScreenStats!]!
+
+  """Tabelas de outros módulos que este grava."""
+  writesForeign: [TableStats!]!
+  hotspots: [Hotspot!]!
+}
+
+type ModuleEdge {
+  src: ID!
+  dst: ID!
+  kind: String!
+  weight: Float!
+  edges: Int!
+  samples: JSON!
+}
+
+type ModuleStats {
+  module: ID!
+  name: String!
+  files: Int!
+  screens: Int!
+  tables: Int!
+  ca: Int!
+  ce: Int!
+  instability: Float
+  weightIn: Float!
+  weightOut: Float!
+  sharedTables: Int!
+
+  """
+  Tabelas de que o módulo é dono (dicionário), inclusive as só referenciadas.
+  """
+  ownedTables: Int!
+
+  """Das tabelas próprias, quantas outros módulos leem ou gravam."""
+  ownedShared: Int!
+
+  """
+  Parte do peso das dependências que vai para um módulo conhecido (não para `(sem módulo)`); nulo sem dependências.
+  """
+  coverage: Float
+}
+
+type Mutation {
+  """
+  Cria um token do MCP. `expiresDays` ∈ 30, 90, 180, 365 ou nulo (sem validade).
+  """
+  createAccessToken(name: String!, expiresDays: Int = 90): CreatedAccessToken!
+
+  """Revoga o token: a próxima chamada do cliente recebe 401."""
+  revokeAccessToken(id: Int!): AccessToken!
+
+  """
+  Cria um usuário (senha com pelo menos 10 caracteres). `role`: `admin` ou `leitor` (padrão `leitor`, que só consulta).
+  """
+  addAccessUser(username: String!, password: String!, role: String! = "leitor"): AccessUser!
+
+  """
+  Troca o papel do usuário. Não deixa rebaixar o último administrador ativo.
+  """
+  setAccessUserRole(username: String!, role: String!): AccessUser!
+
+  """
+  Desativa o usuário. Não deixa desativar a si mesmo nem o último administrador.
+  """
+  disableAccessUser(username: String!): AccessUser!
+
+  """Reativa um usuário desativado."""
+  enableAccessUser(username: String!): AccessUser!
+
+  """Define uma senha nova para o usuário (e desbloqueia a conta)."""
+  resetAccessUserPassword(username: String!, password: String!): AccessUser!
+
+  """
+  Liga ou desliga a leitura do código-fonte pelo MCP (desligada por padrão).
+  """
+  setMcpExposeSource(expose: Boolean!): McpStatus!
+
+  """
+  Grava o comando do túnel (`{port}` e `{host}` são trocados) e os NOMES das variáveis.
+  """
+  saveTunnelConfig(command: [String!]!, publicUrl: String = null, urlRegex: String = null, envNames: [String!] = null): TunnelConfigInfo!
+
+  """
+  Sobe o túnel: pré-checagens, varredura de segredos, URL pública e health.
+  """
+  startTunnel: TunnelStatus!
+
+  """Para o túnel (mata o processo e tira o host público)."""
+  stopTunnel: TunnelStatus!
+
+  """Valida a pasta do e-cidade e passa a usá-la (código-fonte e scan)."""
+  setSource(path: String!): Workspace!
+
+  """Inicia o scan num subprocesso (um por vez)."""
+  startScan(input: ScanInput!): ScanJob!
+
+  """
+  Cadastra um projeto. A pasta é validada pelo marcador do perfil escolhido; `dsnEnv` é o NOME da variável do .env, nunca a conexão.
+  """
+  addProject(input: ProjectInput!): Project!
+
+  """Altera o cadastro de um projeto. Só os campos informados mudam."""
+  updateProject(slug: String!, input: ProjectUpdate!): Project!
+
+  """
+  Tira um projeto da lista (os arquivos dele ficam em disco). Não remove o ativo.
+  """
+  removeProject(slug: String!): [Project!]!
+
+  """
+  Passa a servir o grafo do projeto (outro arquivo, nunca o mesmo trocado).
+  """
+  setActiveProject(slug: String!): Project!
+
+  """Cancela o scan em andamento (processo e containers do job)."""
+  cancelScan: ScanJob!
+}
+
+type Node {
+  id: ID!
+  label: String!
+  name: String
+  path: String
+  modules: [String!]!
+  attrs: JSON!
+
+  """Arestas saindo (OUT) ou chegando (IN), paginadas."""
+  neighbors(direction: Direction! = OUT, types: [String!] = null, minConfidence: Float! = 0, includeInfra: Boolean! = false, limit: Int! = 100, offset: Int! = 0): EdgePage!
+
+  """Módulos com a fonte (catálogo ou regra de nome) e a confiança."""
+  memberships: [Membership!]!
+}
+
+type ProfileMarker {
+  profile: String!
+  marker: String!
+  found: Boolean!
+}
+
+type ProfileOption {
+  name: String!
+
+  """Arquivo que o perfil exige na raiz da pasta."""
+  marker: String!
+}
+
+"""Qual perfil a pasta parece ser. Só sugere: quem confirma é o usuário."""
+type ProfileSuggestion {
+  exists: Boolean!
+  profile: String
+  markers: [ProfileMarker!]!
+}
+
+"""Um sistema mapeado (e-cidade, zend1). O DSN nunca aparece aqui."""
+type Project {
+  slug: String!
+  name: String!
+  profile: String!
+  source: String!
+  sourceExists: Boolean!
+  hasGraph: Boolean!
+  lastScan: String
+  schemaFromDb: Boolean!
+
+  """NOME da variável do .env com a conexão (nunca o valor)."""
+  dsnEnv: String
+
+  """A variável existe no ambiente ou no .env."""
+  dsnAvailable: Boolean!
+  active: Boolean!
+  scanning: Boolean!
+}
+
+input ProjectInput {
+  name: String!
+  profile: String!
+  source: String!
+  slug: String = null
+  schemaFromDb: Boolean! = false
+
+  """NOME da variável do .env, nunca a conexão."""
+  dsnEnv: String = null
+}
+
+input ProjectUpdate {
+  name: String = null
+  profile: String = null
+  source: String = null
+  schemaFromDb: Boolean = null
+  dsnEnv: String = null
+  clearDsnEnv: Boolean! = false
+}
+
+type Query {
+  """Tokens do MCP (nunca o valor, só o prefixo)."""
+  accessTokens: [AccessToken!]!
+
+  """Usuários do login da interface (nunca a senha)."""
+  accessUsers: [AccessUser!]!
+
+  """
+  O MCP montado em `/mcp`: estado, endereços, código-fonte e tokens ativos.
+  """
+  mcpStatus: McpStatus!
+
+  """A configuração do túnel (só nomes de variáveis) e os exemplos prontos."""
+  tunnelConfig: TunnelConfigInfo!
+
+  """
+  Estado do túnel: etapa, URL pública do MCP, log mascarado e achados de segredo.
+  """
+  tunnelStatus: TunnelStatus!
+
+  """Contagens do scan (por label, tipo e fonte) e o `meta`."""
+  stats: JSON!
+  node(id: ID!): Node
+  nodes(ids: [ID!]!): [Node!]!
+
+  """Busca textual."""
+  search(text: String!, label: String = null, module: String = null, limit: Int! = 20, anyTerm: Boolean! = false): [SearchHit!]!
+
+  """Sugestões enquanto se digita (Ctrl+K): a busca por prefixo."""
+  suggest(prefix: String!, limit: Int! = 8, label: String = null): [SearchHit!]!
+
+  """Da tela até o banco (a mesma BFS do `php-map trace`)."""
+  trace(entry: String!, depth: Int! = 8, minConfidence: Float! = 0, includeInfra: Boolean! = false, expandPgFunctions: Boolean! = false, maxNodes: Int! = 500): Subgraph!
+
+  """Quem é afetado por uma tabela (a BFS do `php-map impact`)."""
+  impact(table: String!, schema: String = null, depth: Int! = 10, minConfidence: Float! = 0, includeInfra: Boolean! = false, maxNodes: Int! = 500): Subgraph!
+
+  """Diagrama Mermaid de `trace` (root = arquivo) ou `impact`."""
+  mermaid(kind: String!, root: String!, depth: Int! = 6, maxNodes: Int! = 60, minConfidence: Float! = 0, includeInfra: Boolean! = false, expandPgFunctions: Boolean! = false): String!
+
+  """
+  Ficha de regras de negócio de uma tela: menus, ações, mensagens, dados gravados e lidos, funções do banco e triggers, com arquivo e linha.
+  """
+  businessRules(entry: String!, depth: Int! = 4, minConfidence: Float! = 0.5): BusinessRules!
+
+  """
+  Autocompletar da tela Menus por fonte: arquivos cujo caminho contém o texto (mínimo de 2 caracteres), os que casam pelo nome primeiro.
+  """
+  findFiles(text: String!, limit: Int! = 10): [ID!]!
+
+  """
+  Menus do e-cidade que chegam a um fonte: a busca reversa a partir do arquivo e do que ele declara, com a distância e o caminho de cada menu.
+  """
+  menusForFile(file: String!, maxDistance: Int! = 5, module: String = null, text: String = null): FileMenus!
+
+  """
+  Camadas de um fonte: os caminhos até o menu (tela, JS, rota, controller) e o que ele alcança (service, repository, model, tabela). A camada é deduzida do nome.
+  """
+  layers(path: String!, minConfidence: Float! = 0.5): FileLayers!
+
+  """Módulos com Ca, Ce e instabilidade."""
+  modules: [ModuleStats!]!
+  module(id: ID!): ModuleDetail
+  moduleEdges(kind: String = null, minWeight: Float! = 0): [ModuleEdge!]!
+  tables(shared: Boolean = null, module: String = null, limit: Int! = 100, offset: Int! = 0): [TableStats!]!
+  hotspots(label: String = null, module: String = null, limit: Int! = 50): [Hotspot!]!
+
+  """Total de tabelas com os mesmos filtros de `tables` (para paginar)."""
+  tablesTotal(shared: Boolean = null, module: String = null): Int!
+  screens(inMenu: Boolean = null, module: String = null, limit: Int! = 100, offset: Int! = 0): [ScreenStats!]!
+
+  """Texto de uma função da base. Nulo se a função não tem texto no grafo."""
+  routineSource(id: ID!, offset: Int! = 1, limit: Int! = 200): RoutineSource
+
+  """Origem de uma função da base. Nulo sem a tabela ou sem a função."""
+  routineOrigin(id: ID!): RoutineOrigin
+
+  """
+  O grafo servido tem a origem das funções (grafo escaneado com a origem).
+  """
+  hasRoutineOrigins: Boolean!
+
+  """
+  O grafo servido tem o texto das funções da base (escaneado com o banco).
+  """
+  hasRoutineTexts: Boolean!
+
+  """Pasta do e-cidade em uso."""
+  workspace: Workspace!
+
+  """Arquivo da pasta do e-cidade (só leitura)."""
+  sourceFile(path: String!, line: Int = null, context: Int! = 30): SourceFile!
+
+  """Projetos cadastrados. Mesmo sem grafo, aparecem na lista."""
+  projects: [Project!]!
+
+  """O projeto ativo: o que o servidor serve. Nulo sem nenhum projeto."""
+  activeProject: Project
+
+  """Perfis disponíveis e o arquivo que cada um exige na raiz da pasta."""
+  projectProfiles: [ProfileOption!]!
+
+  """
+  Sugere o perfil de uma pasta pelos marcadores. A confirmação é do usuário.
+  """
+  suggestProfile(source: String!): ProfileSuggestion!
+
+  """
+  Superfície de comunicação: endpoints SOAP/RPC e rotas HTTP numa lista só, filtrada e paginada aqui. `protocol` aceita soap, rpc, http e externo.
+  """
+  communication(system: String = null, protocol: String = null, direction: String = null, module: String = null, search: String = null, limit: Int! = 50, offset: Int! = 0): CommunicationPage!
+
+  """Detalhe de um endpoint ou rota, com o outro lado da costura (cross)."""
+  endpointDetail(id: ID!): EndpointDetail!
+
+  """Scan pela interface: o atual ou o último. Consultado a cada 2 s."""
+  scanJob: ScanJob
+
+  """Valores iniciais do formulário de scan e o que está disponível."""
+  scanDefaults: ScanDefaults!
+
+  """Extração (cache de AST) desta pasta no `out` do servidor."""
+  astCache(source: String!): AstCache!
+}
+
+"""Arquivo que cita o nome da função: hipótese, não aresta."""
+type RoutineMention {
+  file: ID!
+  line: Int!
+  confidence: Float!
+  hypothesis: Boolean!
+}
+
+"""Por onde a função da base é usada."""
+type RoutineOrigin {
+  """com_origem, so_arquivo, gerada, sem_chamador ou cadeia_sem_origem."""
+  status: String!
+  reason: String!
+  module: String
+  moduleConfidence: Float
+  generated: Boolean!
+  callersPhp: Int!
+  callersRoutines: Int!
+  triggers: Int!
+  entries: [RoutineOriginEntry!]!
+  mentions: [RoutineMention!]!
+}
+
+"""Ponto de origem de uma função: menu, rota, endpoint ou arquivo."""
+type RoutineOriginEntry {
+  """menu, route, endpoint ou file."""
+  kind: String!
+  target: ID!
+  label: String!
+
+  """1 = chamador direto."""
+  distance: Int!
+
+  """Da origem até a função."""
+  via: [String!]!
+
+  """A menor das arestas do caminho."""
+  confidence: Float!
+}
+
+"""Texto de uma função da base, em páginas de linhas."""
+type RoutineSource {
+  id: ID!
+  schema: String!
+  name: String!
+  language: String!
+
+  """Gerada pela auditoria (`fc_auditoria_*`)."""
+  generated: Boolean!
+
+  """Quando o scan leu o texto da base."""
+  readAt: String!
+  sha1: String!
+  totalLines: Int!
+  startLine: Int!
+  endLine: Int!
+
+  """Linhas `start_line`..`end_line`, sem número."""
+  lines: [String!]!
+  truncated: Boolean!
+
+  """Por onde a função é usada; nulo em grafo antigo."""
+  origin: RoutineOrigin
+}
+
+type RuleAction {
+  file: String!
+  cases: [String!]!
+}
+
+type RuleColumn {
+  column: String!
+  label: String
+  description: String
+}
+
+"""Evidência `arquivo:linha` e o nó de onde a aresta parte."""
+type RuleEvidence {
+  path: String!
+  line: Int
+  from: ID!
+}
+
+type RuleMenu {
+  id: ID!
+  path: String
+  paths: [String!]!
+  help: String
+  desctec: String
+  active: Boolean!
+  params: String
+}
+
+type RuleMessage {
+  text: String!
+  kind: String!
+
+  """
+  Classificação heurística por palavra-chave: validação, erro ou mensagem.
+  """
+  category: String!
+  file: String!
+  line: Int!
+  scope: String!
+}
+
+type RuleNote {
+  text: String!
+  file: String!
+  line: Int!
+  scope: String!
+}
+
+type RuleParticipant {
+  node: ID!
+  label: String!
+  name: String
+  depth: Int!
+  via: String
+  parent: ID
+  confidence: Float
+  evidence: JSON!
+}
+
+type RuleRpc {
+  function: ID!
+  name: String!
+  resolved: Boolean!
+  evidence: RuleEvidence!
+}
+
+type RuleStats {
+  files: Int!
+  methods: Int!
+  tables: Int!
+  messages: Int!
+  notes: Int!
+  truncated: Boolean!
+}
+
+type RuleTable {
+  table: ID!
+  name: String!
+  operations: [String!]!
+  catalog: JSON
+  columnsLabeled: [RuleColumn!]!
+  evidence: [RuleEvidence!]!
+  occurrences: Int!
+}
+
+type RuleTrigger {
+  table: ID!
+  function: ID!
+  evidence: RuleEvidence
+}
+
+type ScanDefaults {
+  source: String
+  schema: [String!]!
+
+  """db, files ou none."""
+  schemaSource: String!
+
+  """
+  Há a variável do .env com a conexão do schema do banco. O valor nunca sai.
+  """
+  schemaDbAvailable: Boolean!
+  catalogFromEnv: Boolean!
+
+  """
+  Há a variável do .env e o perfil lê catálogo. O valor nunca sai da API.
+  """
+  catalogAvailable: Boolean!
+
+  """Slug do projeto ativo."""
+  project: String
+  projectName: String
+  profile: String!
+
+  """Arquivo que o perfil exige na raiz da pasta."""
+  marker: String!
+
+  """NOME da variável do .env (nunca o valor)."""
+  dsnEnv: String!
+  reuseAst: Boolean!
+  dockerAvailable: Boolean!
+  dockerMessage: String
+  recentSources: [String!]!
+  readOnly: Boolean!
+}
+
+input ScanInput {
+  """Pasta a escanear; sem ela, a do projeto."""
+  source: String = null
+
+  """Slug do projeto: perfil, nome e DSN vêm dele."""
+  project: String = null
+  schema: [String!]! = []
+
+  """
+  db (--schema-db, DSN do .env), files (os caminhos de `schema`) ou none.
+  """
+  schemaSource: String! = "files"
+  catalogFromEnv: Boolean! = true
+  reuseAst: Boolean! = true
+  search: Boolean! = true
+  analytics: Boolean! = true
+}
+
+type ScanJob {
+  id: ID!
+
+  """running, succeeded, failed ou canceled."""
+  state: String!
+  stage: String
+  stageLabel: String
+  stages: [ScanStage!]!
+  startedAt: String!
+  finishedAt: String
+  elapsedSeconds: Float!
+  logTail: [String!]!
+
+  """O evento `done` do scan (resumo)."""
+  result: JSON
+  error: String
+
+  """Slug do projeto escaneado."""
+  project: String
+}
+
+type ScanStage {
+  stage: String!
+  label: String!
+  at: String!
+}
+
+type ScreenStats {
+  fileId: ID!
+  module: String!
+  inMenu: Boolean!
+  menuItems: Int!
+  tablesWritten: Int!
+  tablesRead: Int!
+  reachedBy: Int!
+}
+
+type SearchHit {
+  nodeId: ID!
+  label: String!
+  modules: [String!]!
+  score: Float!
+  matched: Int!
+  field: String!
+  snippet: String!
+  nextCommand: String!
+}
+
+type SourceFile {
+  path: String!
+  totalLines: Int!
+  startLine: Int!
+  lines: [String!]!
+  highlight: Int
+  truncated: Boolean!
+  sizeBytes: Int!
+}
+
+type Subgraph {
+  root: ID!
+  nodes: [Node!]!
+  edges: [Edge!]!
+  depthOf: JSON!
+
+  """Pai de cada nó na busca (o nó mais perto da raiz); a raiz não aparece."""
+  parentOf: JSON!
+  truncated: Boolean!
+  summary: JSON!
+
+  """Só no impacto: quem chama o DAO (`cl_*`) que toca a tabela."""
+  daoUsers: [DaoUser!]!
+}
+
+type TableStats {
+  tableId: ID!
+  ownerModules: [String!]!
+  readerModules: JSON!
+  writerModules: JSON!
+  readers: Int!
+  writers: Int!
+  shared: Boolean!
+}
+
+type TunnelConfigInfo {
+  configured: Boolean!
+  command: [String!]!
+  publicUrl: String
+  urlRegex: String!
+  env: [TunnelEnvVar!]!
+  examples: [TunnelExample!]!
+}
+
+type TunnelEnvVar {
+  name: String!
+  defined: Boolean!
+}
+
+type TunnelExample {
+  id: String!
+  label: String!
+  command: [String!]!
+  publicUrl: String
+  urlRegex: String!
+  envNames: [String!]!
+}
+
+type TunnelFinding {
+  kind: String!
+  where: String!
+  masked: String!
+  hash: String!
+}
+
+type TunnelStatus {
+  state: String!
+  stage: String
+  stageLabel: String
+  url: String
+  publicHost: String
+  error: String
+  log: [String!]!
+  findings: [TunnelFinding!]!
+  elapsedSeconds: Int!
+  canStart: Boolean!
+  blockedReason: String
+}
+
+type ViaStep {
+  node: ID!
+  label: String!
+  edgeType: String
+  confidence: Float
+  path: String
+  line: Int
+  incoming: Boolean!
+}
+
+type Workspace {
+  source: String
+  origin: String!
+  exists: Boolean!
+  isEcidade: Boolean!
+  graphSource: String
+
+  """Arquivo que o perfil exige na raiz da pasta."""
+  marker: String!
+}

@@ -1,0 +1,53 @@
+name: Relatar um bug
+description: Algo não funciona como o esperado
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por relatar. **Não cole** código, senhas, DSNs nem trechos do grafo de um sistema que você não pode divulgar. Para vulnerabilidades, siga o [SECURITY.md](../blob/main/SECURITY.md) em vez de abrir uma issue.
+  - type: textarea
+    id: o-que-aconteceu
+    attributes:
+      label: O que aconteceu
+      description: O que você fez, o que esperava e o que viu.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduzir
+    attributes:
+      label: Como reproduzir
+      description: Os comandos exatos, de preferência com um recorte mínimo de código que mostre o problema.
+      render: shell
+    validations:
+      required: true
+  - type: input
+    id: versao
+    attributes:
+      label: Versão do php-map
+      description: "Saída de `pip show php-map` (campo Version)."
+    validations:
+      required: true
+  - type: dropdown
+    id: sistema
+    attributes:
+      label: Sistema operacional
+      options: [Linux, Windows, macOS, Outro]
+    validations:
+      required: true
+  - type: input
+    id: ambiente
+    attributes:
+      label: Python e Docker
+      description: "Ex.: Python 3.12, Docker Engine 27."
+  - type: input
+    id: perfil
+    attributes:
+      label: Perfil do projeto
+      description: "`ecidade`, `zend1` ou outro."
+  - type: textarea
+    id: logs
+    attributes:
+      label: Mensagens de erro
+      description: A saída do terminal, com `php-map -v <comando>` se ajudar. Remova caminhos e dados privados.
+      render: text

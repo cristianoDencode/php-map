@@ -1,0 +1,66 @@
+# Impacto — `{{ r.target }}`
+
+| Filtro | Valor |
+|---|---|
+| Profundidade máxima | {{ options.depth }} |
+| Confiança mínima | {{ options.min_confidence }} |
+| Infraestrutura | {{ "incluída" if options.include_infra else "oculta (`--include-infra` para exibir)" }} |
+| Scan | {{ meta.get("scanned_at", "—") }} (`{{ meta.get("source", "—") }}`) |
+
+## Resumo
+- Quem toca a tabela diretamente: {{ r.direct | length }}
+- Quem usa pelo DAO (chama um método `cl_*` que toca a tabela): {{ r.dao_users | length }}
+- Arquivos afetados: {{ r.files | length }} (telas: {{ r.files | selectattr("is_screen") | list | length }}, RPCs: {{ r.files | selectattr("is_rpc") | list | length }})
+- Métodos e funções PHP no caminho: {{ r.code | length }}
+- Funções do banco que tocam a tabela: {{ r.pgfunctions | length }}
+
+## Quem toca a tabela diretamente
+{% if r.direct %}
+| Origem | Tipo | Operação | Evidência | Confiança |
+|---|---|---|---|---|
+{% for d in r.direct %}
+| `{{ d.origin }}` | {{ d.label }} | {{ d.operation }} | `{{ d.evidence.get("path", "") }}:{{ d.evidence.get("line", "") }}` | {{ "%.2f" | format(d.confidence) }} |
+{% endfor %}
+{% else %}
+Nada no grafo lê ou altera essa tabela com esses filtros.
+{% endif %}
+
+## Quem usa pelo DAO
+{% if r.dao_users %}
+| Origem | Tipo | Operação | Método do DAO | Evidência | Confiança |
+|---|---|---|---|---|---|
+{% for d in r.dao_users %}
+| `{{ d.origin }}` | {{ d.label }} | {{ d.operation }} | `{{ d.dao_method }}` | `{{ d.evidence.get("path", "") }}:{{ d.evidence.get("line", "") }}` | {{ "%.2f" | format(d.confidence) }} |
+{% endfor %}
+{% else %}
+Ninguém chama um DAO que toque a tabela com esses filtros.
+{% endif %}
+
+## Arquivos afetados
+{% if r.files %}
+| Arquivo | Distância | Módulo | Tipo | Alcançado |
+|---|---|---|---|---|
+{% for f in r.files %}
+| `{{ f.path }}` | {{ f.depth }} | {{ f.module_hint or "—" }} | {{ "**tela**" if f.is_screen else ("**RPC**" if f.is_rpc else "arquivo") }} | {{ "via método" if f.via else "direto" }} |
+{% endfor %}
+{% else %}
+Nenhum arquivo alcançado.
+{% endif %}
+
+## Métodos e funções PHP no caminho
+{% if r.code %}
+{% for node in r.code %}
+- `{{ node }}`
+{% endfor %}
+{% else %}
+Nenhum.
+{% endif %}
+
+## Diagrama
+{% if cut %}
+Diagrama cortado em {{ max_nodes }} nós ({{ cut }} de fora; os caminhos das telas e RPCs têm prioridade). Use `--max-mermaid-nodes` para mudar.
+
+{% endif %}
+```mermaid
+{{ mermaid }}
+```

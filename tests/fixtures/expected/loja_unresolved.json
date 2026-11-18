@@ -1,0 +1,56 @@
+{
+ "unresolved": [
+  {
+   "kind": "dynamic_include",
+   "path": "libs/db_conecta.php",
+   "hint": "db_conn.php",
+   "note": "require_once modification(\"{$sPath}db_conn.php\")"
+  },
+  {
+   "kind": "dynamic_include",
+   "path": "libs/db_stdlibalt.php",
+   "hint": "/../model/pedido/TraceLog.model.php",
+   "note": "\"{$sDir}/...\" dentro do corpo de db_query"
+  },
+  {
+   "kind": "dynamic_include",
+   "path": "classes/pedido.php",
+   "hint": "_classe.php",
+   "note": "usarDao: \"classes/db_{$sClasse}_classe.php\""
+  },
+  {
+   "kind": "dynamic_include",
+   "path": "libs/db_utils.php",
+   "hint": "_classe.php",
+   "note": "getDao"
+  },
+  {
+   "kind": "dynamic_include",
+   "path": "std/Modification.php",
+   "hint": "std/ModificationFile.php",
+   "note": "require com constante LOJA_PATH"
+  },
+  {
+   "kind": "unresolved_include",
+   "path": "ped4_baixaestoque004.php",
+   "hint": "model/estoque/ReservaEstoque.model.php",
+   "note": "alvo ausente"
+  },
+  {
+   "kind": "unresolved_include",
+   "path": "model/estoque/LancamentoEstoque.model.php",
+   "hint": "model/estoque/ContratoEstoque.model.php"
+  },
+  {
+   "kind": "unresolved_include",
+   "path": "model/estoque/LancamentoEstoque.model.php",
+   "hint": "model/estoque/Auditoria.model.php"
+  },
+  {
+   "kind": "ambiguous_function",
+   "path": "classes/db_pedido_classe.php",
+   "hint": "db_query",
+   "note": "duas funções db_query"
+  }
+ ]
+}
