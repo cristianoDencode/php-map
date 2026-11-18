@@ -192,6 +192,9 @@ class _Handler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_POST(self) -> None:  # noqa: N802
+        # Lê o corpo antes de responder: fechar o socket com dados não lidos faz o Windows
+        # mandar RST e o cliente vê WinError 10053 em vez da resposta.
+        self.rfile.read(int(self.headers.get("content-length") or 0))
         self._send(200 if self.mode == "open-mcp" else 401)
 
     def do_GET(self) -> None:  # noqa: N802
