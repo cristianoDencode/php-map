@@ -35,7 +35,7 @@ dependencies = [
     # API GraphQL e comando `php-map ui`.
     "fastapi==0.141.1",
     "uvicorn==0.54.0",
-    "strawberry-graphql==0.327.7",
+    "strawberry-graphql==0.341.2",
 ]
 
 [project.optional-dependencies]
