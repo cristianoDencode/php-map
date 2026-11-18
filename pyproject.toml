@@ -46,7 +46,7 @@ dev = [
     "ruff>=0.6",
     "mypy>=1.11",
     "types-networkx>=3.3",
-    "httpx2==2.13.1",  # TestClient do Starlette 1.x
+    "httpx2==2.16.0",  # TestClient do Starlette 1.x
 ]
 
 [project.urls]
