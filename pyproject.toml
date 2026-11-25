@@ -33,7 +33,7 @@ dependencies = [
     # Catálogo lido do banco no scan; wheel cp314-win_amd64.
     "psycopg[binary]==3.3.6",
     # API GraphQL e comando `php-map ui`.
-    "fastapi==0.141.1",
+    "fastapi==0.165.0",
     "uvicorn==0.54.0",
     "strawberry-graphql==0.327.7",
 ]
